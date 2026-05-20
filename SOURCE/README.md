@@ -14,7 +14,7 @@ You must be signed in to Gemini with your Google account.
 
 1. Open `chrome://extensions`.
 2. Enable **Developer mode**.
-3. Click **Load unpacked** and select this folder.
+3. Click **Load unpacked** and select this `SOURCE` folder.
 
 ## How it works
 
