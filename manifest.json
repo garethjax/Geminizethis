@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "youtube2gemini",
+  "version": "0.1.0",
+  "description": "Right-click any YouTube video and send it to Gemini for a summary.",
+  "permissions": ["contextMenus", "storage"],
+  "host_permissions": ["https://gemini.google.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://gemini.google.com/*"],
+      "js": ["gemini-content.js"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
