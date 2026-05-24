@@ -27,7 +27,7 @@ function normalizeYouTubeUrl(rawUrl) {
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: MENU_ID,
-    title: "Gemini this",
+    title: "Geminize this",
     contexts: ["link"],
     targetUrlPatterns: [
       "*://*.youtube.com/watch?v=*",
