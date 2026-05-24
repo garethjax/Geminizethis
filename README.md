@@ -11,7 +11,7 @@ A Chrome extension that seamlessly sends YouTube videos to Google Gemini for sum
 ## Installation
 
 ### For Beta Testers (ZIP version)
-1.  Download the `youtube2gemini-v0.1.zip` from the latest release.
+1.  Download the `youtube2gemini-v0.1.zip` from the [latest releases](https://github.com/garethjax/Geminizethis/releases).
 2.  Extract the ZIP file to a folder on your computer.
 3.  Open Chrome and navigate to `chrome://extensions`.
 4.  Enable **"Developer mode"** (top right toggle).
@@ -31,7 +31,7 @@ The extension relies on specific JavaScript selectors to find the input field on
 ### Security Note
 **Your privacy and security are paramount.** Before installing any browser extension that interacts with your web pages, you should verify its integrity.
 *   **Audit the Code**: The logic is simple and contained within `background.js` and `gemini-content.js`.
-*   **LLM Verification**: We recommend running the source code through a frontier LLM (e.g., Claude 3.5 Sonnet, GPT-4o, or better) to ensure the extension does not exfiltrate data or perform malicious actions.
+*   **LLM Verification**: We recommend running the source code through a frontier LLM (e.g., **Claude Opus 4.7**, **GPT 5.5**, or **DeepSeek 4**) to ensure the extension does not exfiltrate data or perform malicious actions.
 
 ## Roadmap (TODO)
 
