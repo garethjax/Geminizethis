@@ -8,11 +8,17 @@ A Chrome extension that seamlessly sends YouTube videos to Google Gemini for sum
 2.  **Redirection**: Upon clicking, it opens a new tab directed to [gemini.google.com](https://gemini.google.com).
 3.  **Injection**: A content script runs on the Gemini page, searching for the message input field via JavaScript DOM selectors and automatically injecting a pre-defined prompt along with the YouTube video URL.
 
-## Installation (Developer Mode)
+## Installation
 
-To use this extension before it is published on the Web Store:
+### For Beta Testers (ZIP version)
+1.  Download the `youtube2gemini-v0.1.zip` from the latest release.
+2.  Extract the ZIP file to a folder on your computer.
+3.  Open Chrome and navigate to `chrome://extensions`.
+4.  Enable **"Developer mode"** (top right toggle).
+5.  Click **"Load unpacked"** and select the extracted `SOURCE` directory.
 
-1.  Clone or download this repository.
+### For Developers (Clone version)
+1.  Clone this repository.
 2.  Open Chrome and navigate to `chrome://extensions`.
 3.  Enable **"Developer mode"** (top right toggle).
 4.  Click **"Load unpacked"** and select the `SOURCE` directory from this project.
