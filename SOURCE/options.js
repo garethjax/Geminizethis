@@ -30,6 +30,7 @@ async function render() {
         </label>
         <div class="row">
           <button class="del danger">Elimina</button>
+          <button class="exp">Esporta</button>
           <button class="save primary">Salva</button>
         </div>
       </div>`;
@@ -53,23 +54,37 @@ async function render() {
       setStatus("Eliminato.");
       render();
     });
+    div.querySelector(".exp").addEventListener("click", () => {
+      const current = {
+        name: div.querySelector(".name").value,
+        text: div.querySelector(".text").value,
+        author: div.querySelector(".author").value
+      };
+      const json = self.Prompts.serializePrompts([current]);
+      downloadJson(slugify(current.name) + ".json", json);
+    });
     list.appendChild(div);
   }
+}
+
+function slugify(name) {
+  const base = (name || "prompt").toLowerCase().trim()
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return "geminize-" + (base || "prompt");
+}
+
+function downloadJson(filename, json) {
+  const blob = new Blob([json], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 document.getElementById("add").addEventListener("click", async () => {
   await self.Prompts.savePrompt({ name: "Nuovo prompt", text: "", author: "" });
   render();
-});
-
-document.getElementById("export").addEventListener("click", async () => {
-  const json = await self.Prompts.exportJson();
-  const blob = new Blob([json], { type: "application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "youtube2gemini-prompts.json";
-  a.click();
-  URL.revokeObjectURL(a.href);
 });
 
 document.getElementById("importFile").addEventListener("change", async (e) => {

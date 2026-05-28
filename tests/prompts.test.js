@@ -2,6 +2,18 @@ const test = require("node:test");
 const assert = require("node:assert");
 const P = require("../SOURCE/prompts.js");
 
+test("serializePrompts produces version 1 file with bare fields", () => {
+  const json = P.serializePrompts([{ id: "x", name: "A", text: "t", author: "me" }]);
+  assert.deepStrictEqual(JSON.parse(json), {
+    version: 1,
+    prompts: [{ name: "A", text: "t", author: "me" }]
+  });
+});
+test("serializePrompts output round-trips through parseImportJson", () => {
+  const json = P.serializePrompts([{ id: "x", name: "A", text: "t", author: "" }]);
+  assert.deepStrictEqual(P.parseImportJson(json), [{ name: "A", text: "t", author: "" }]);
+});
+
 test("applyTemplate replaces {{url}} placeholder", () => {
   assert.strictEqual(P.applyTemplate("Watch {{url}} now", "https://x/v"), "Watch https://x/v now");
 });
