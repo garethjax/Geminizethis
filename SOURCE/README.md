@@ -1,4 +1,4 @@
-# youtube2gemini
+# Geminize This
 
 A Chrome extension that sends YouTube videos to Gemini for summarization.
 

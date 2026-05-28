@@ -2,27 +2,48 @@
 <html lang="it">
 <head>
   <meta charset="utf-8" />
-  <title>youtube2gemini — Prompt</title>
+  <title>Geminize This — Prompt</title>
+  <link rel="stylesheet" href="styles.css" />
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 24px auto; padding: 0 16px; }
-    .prompt { border: 1px solid #ccc; border-radius: 8px; padding: 12px; margin: 8px 0; }
-    .prompt textarea { width: 100%; min-height: 60px; box-sizing: border-box; }
-    .prompt input[type=text] { width: 100%; box-sizing: border-box; margin-bottom: 6px; }
-    .row { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
-    .muted { color: #666; font-size: 12px; }
+    .page { max-width: 720px; margin: 0 auto; }
+    .app-header { position: sticky; top: 0; z-index: 1; }
+    .import-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; border: 1px solid var(--border); background: var(--surface);
+      border-radius: 8px; padding: 7px 12px; cursor: pointer;
+    }
+    .import-label:hover { background: #f0f0f6; }
+    .import-label input { display: none; }
   </style>
 </head>
 <body>
-  <h1>Archivio prompt</h1>
-  <p class="muted">Usa <code>{{url}}</code> nel testo per posizionare l'URL del video; se assente, viene aggiunto in fondo.</p>
-  <div id="list"></div>
-  <button id="add">+ Nuovo prompt</button>
-  <hr />
-  <div class="row">
-    <button id="export">Esporta JSON</button>
-    <input type="file" id="importFile" accept="application/json,.json" />
+  <div class="page">
+    <header class="app-header">
+      <div>
+        <h1>Archivio prompt</h1>
+        <p class="subtitle">Usa <code>{{url}}</code> per posizionare l'URL; se assente va in fondo.</p>
+      </div>
+      <button class="primary" id="add">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Nuovo prompt
+      </button>
+    </header>
+
+    <div class="content">
+      <div id="list"></div>
+
+      <hr />
+      <div class="row between">
+        <span class="muted">Importa prompt da un file JSON condiviso (vengono aggiunti ai tuoi).</span>
+        <label class="import-label">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          Importa JSON
+          <input type="file" id="importFile" accept="application/json,.json" />
+        </label>
+      </div>
+      <p id="status" class="status"></p>
+    </div>
   </div>
-  <p id="status" class="muted"></p>
   <script src="prompts.js"></script>
   <script src="options.js"></script>
 </body>

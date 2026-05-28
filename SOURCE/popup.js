@@ -3,18 +3,25 @@ const list = document.getElementById("list");
 async function render() {
   const { prompts, defaultPromptId } = await self.Prompts.getPrompts();
   list.innerHTML = "";
+  if (prompts.length === 0) {
+    list.innerHTML = '<div class="empty">Nessun prompt. Aprine la gestione qui sotto.</div>';
+    return;
+  }
   for (const p of prompts) {
-    const label = document.createElement("label");
-    const radio = document.createElement("input");
-    radio.type = "radio";
-    radio.name = "def";
-    radio.checked = p.id === defaultPromptId;
-    radio.addEventListener("change", async () => {
+    const row = document.createElement("div");
+    row.className = "select-row" + (p.id === defaultPromptId ? " selected" : "");
+    const dot = document.createElement("span");
+    dot.className = "dot";
+    const label = document.createElement("span");
+    label.className = "label";
+    label.textContent = p.name;
+    row.appendChild(dot);
+    row.appendChild(label);
+    row.addEventListener("click", async () => {
       await self.Prompts.setDefault(p.id);
+      render();
     });
-    label.appendChild(radio);
-    label.appendChild(document.createTextNode(" " + p.name));
-    list.appendChild(label);
+    list.appendChild(row);
   }
 }
 

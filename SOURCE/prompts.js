@@ -65,7 +65,15 @@
     };
   }
 
-  const api = { applyTemplate, parseImportJson, mergeImported, reassignDefault, migrate };
+  // Serialize a list of prompts to the import/export file format.
+  function serializePrompts(prompts) {
+    const bare = prompts.map((p) => ({ name: p.name, text: p.text, author: p.author }));
+    return JSON.stringify({ version: 1, prompts: bare }, null, 2);
+  }
+
+  const api = {
+    applyTemplate, parseImportJson, mergeImported, reassignDefault, migrate, serializePrompts
+  };
 
   // --- chrome.storage wrappers (skipped under Node) ---
   if (typeof chrome !== "undefined" && chrome.storage) {
@@ -107,8 +115,7 @@
 
     api.exportJson = async function () {
       const { prompts } = await load();
-      const bare = prompts.map((p) => ({ name: p.name, text: p.text, author: p.author }));
-      return JSON.stringify({ version: 1, prompts: bare }, null, 2);
+      return serializePrompts(prompts);
     };
 
     api.importJson = async function (jsonString) {
