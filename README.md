@@ -4,9 +4,19 @@ A Chrome extension that seamlessly sends YouTube videos to Google Gemini for sum
 
 ## How it Works
 
-1.  **Context Menu**: The extension adds a "Gemini this" option to your browser's right-click context menu, specifically active when you right-click on YouTube video links.
-2.  **Redirection**: Upon clicking, it opens a new tab directed to [gemini.google.com](https://gemini.google.com).
-3.  **Injection**: A content script runs on the Gemini page, searching for the message input field via JavaScript DOM selectors and automatically injecting a pre-defined prompt along with the YouTube video URL.
+1.  **Context Menu**: The extension adds a "Geminize this" submenu to your browser's right-click context menu, specifically active when you right-click on YouTube video links. The submenu lists all your saved prompts, with the default one on top.
+2.  **Redirection**: Upon clicking a prompt, it opens a new tab directed to [gemini.google.com](https://gemini.google.com).
+3.  **Injection**: A content script runs on the Gemini page, searching for the message input field via JavaScript DOM selectors and automatically injecting the chosen prompt with the YouTube video URL.
+
+## Prompt Archive
+
+Manage your prompts locally (stored in the browser via `chrome.storage.local`, never synced to any server):
+
+*   **Options page**: open the extension's *Options* (`chrome://extensions` → *Details* → *Extension options*) to create, edit, and delete prompts, and to set the default.
+*   **`{{url}}` placeholder**: put `{{url}}` anywhere in a prompt's text to control where the video URL is inserted; if omitted, the URL is appended at the end.
+*   **Quick default**: click the toolbar icon to switch the default prompt from a popup.
+*   **Author field**: each prompt has an optional `author` for attribution.
+*   **Import / Export**: export all prompts to a JSON file, or import a JSON file from someone else. Import **merges** (adds) the prompts to your existing ones, so prompts can be shared without overwriting your own.
 
 ## Installation
 
@@ -35,7 +45,7 @@ The extension relies on specific JavaScript selectors to find the input field on
 
 ## Roadmap (TODO)
 
-- [ ] **Custom Prompts**: Implementation of a settings UI to save and manage custom prompts in the browser's local storage.
+- [x] **Custom Prompts**: Settings UI to save, manage, import, and export custom prompts in the browser's local storage.
 - [ ] **Firefox Support**: Porting the extension to be compatible with Mozilla Firefox.
 - [ ] **Auto-Submit**: Optional setting to automatically trigger the "Send" button after injection.
 
