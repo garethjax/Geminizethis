@@ -32,7 +32,26 @@
     });
   }
 
-  const api = { applyTemplate, parseImportJson };
+  function mergeImported(existing, imported, genId) {
+    const fresh = imported.map((p) => ({
+      id: genId(),
+      name: p.name,
+      text: p.text,
+      author: p.author || ""
+    }));
+    return existing.concat(fresh);
+  }
+
+  // Returns the defaultPromptId after a delete: unchanged if the deleted id
+  // was not the default, otherwise the first remaining prompt's id (or null).
+  function reassignDefault(prompts, defaultPromptId, deletedId) {
+    if (defaultPromptId !== deletedId) {
+      return defaultPromptId;
+    }
+    return prompts.length > 0 ? prompts[0].id : null;
+  }
+
+  const api = { applyTemplate, parseImportJson, mergeImported, reassignDefault };
 
   if (typeof module !== "undefined" && module.exports) {
     module.exports = api;

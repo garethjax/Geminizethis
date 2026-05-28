@@ -29,3 +29,24 @@ test("parseImportJson throws when prompts is not an array", () => {
 test("parseImportJson throws when an entry lacks name or text", () => {
   assert.throws(() => P.parseImportJson(JSON.stringify({ version: 1, prompts: [{ name: "A" }] })), /name.*text/);
 });
+
+test("mergeImported appends imported prompts with fresh ids", () => {
+  let n = 0;
+  const genId = () => `id-${++n}`;
+  const existing = [{ id: "x", name: "Old", text: "o", author: "" }];
+  const imported = [{ name: "New", text: "nt", author: "bob" }];
+  const result = P.mergeImported(existing, imported, genId);
+  assert.deepStrictEqual(result, [
+    { id: "x", name: "Old", text: "o", author: "" },
+    { id: "id-1", name: "New", text: "nt", author: "bob" }
+  ]);
+});
+test("reassignDefault keeps current default when not deleted", () => {
+  assert.strictEqual(P.reassignDefault([{ id: "a" }, { id: "b" }], "a", "b"), "a");
+});
+test("reassignDefault picks first remaining when default deleted", () => {
+  assert.strictEqual(P.reassignDefault([{ id: "b" }, { id: "c" }], "a", "a"), "b");
+});
+test("reassignDefault returns null when no prompts remain", () => {
+  assert.strictEqual(P.reassignDefault([], "a", "a"), null);
+});
