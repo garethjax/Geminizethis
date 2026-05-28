@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <title>youtube2gemini — Prompt</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 24px auto; padding: 0 16px; }
+    .prompt { border: 1px solid #ccc; border-radius: 8px; padding: 12px; margin: 8px 0; }
+    .prompt textarea { width: 100%; min-height: 60px; box-sizing: border-box; }
+    .prompt input[type=text] { width: 100%; box-sizing: border-box; margin-bottom: 6px; }
+    .row { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
+    .muted { color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Archivio prompt</h1>
+  <p class="muted">Usa <code>{{url}}</code> nel testo per posizionare l'URL del video; se assente, viene aggiunto in fondo.</p>
+  <div id="list"></div>
+  <button id="add">+ Nuovo prompt</button>
+  <hr />
+  <div class="row">
+    <button id="export">Esporta JSON</button>
+    <input type="file" id="importFile" accept="application/json,.json" />
+  </div>
+  <p id="status" class="muted"></p>
+  <script src="prompts.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
