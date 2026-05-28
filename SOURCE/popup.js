@@ -20,7 +20,8 @@ async function render() {
 
 document.getElementById("opts").addEventListener("click", (e) => {
   e.preventDefault();
-  chrome.runtime.openOptionsPage();
+  chrome.tabs.create({ url: chrome.runtime.getURL("options.html") });
+  window.close();
 });
 
 render();
