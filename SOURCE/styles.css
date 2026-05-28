@@ -166,6 +166,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
   cursor: pointer;
 }
 .footer-link:hover { text-decoration: underline; }
+.version-link { color: var(--muted); font-weight: 500; }
 
 .status { min-height: 16px; color: var(--accent); font-size: 12px; }
 .status.error { color: var(--danger); }

@@ -31,4 +31,12 @@ document.getElementById("opts").addEventListener("click", (e) => {
   window.close();
 });
 
+const ver = document.getElementById("ver");
+ver.textContent = "v" + chrome.runtime.getManifest().version;
+ver.addEventListener("click", (e) => {
+  e.preventDefault();
+  chrome.tabs.create({ url: chrome.runtime.getURL("changelog.html") });
+  window.close();
+});
+
 render();

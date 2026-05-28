@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <title>Geminize This — Novità</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .page { max-width: 720px; margin: 0 auto; }
+    .release { }
+    .release-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+    .release-head .ver { font-weight: 700; font-size: 16px; }
+    .release-head .codename { color: var(--accent); font-weight: 600; }
+    .release-head .date { color: var(--muted); font-size: 12px; margin-left: auto; }
+    .release ul { margin: 0; padding-left: 18px; }
+    .release li { margin-bottom: 4px; }
+    .badge-current {
+      font-size: 11px; font-weight: 600; color: #fff; background: var(--accent);
+      border-radius: 6px; padding: 1px 7px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="app-header">
+      <div>
+        <h1>Novità</h1>
+        <p class="subtitle">Cronologia delle versioni di Geminize This</p>
+      </div>
+    </header>
+    <div class="content" id="list"></div>
+  </div>
+  <script src="changelog.js"></script>
+</body>
+</html>
