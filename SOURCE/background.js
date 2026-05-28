@@ -23,7 +23,18 @@ function normalizeYouTubeUrl(rawUrl) {
   return `https://www.youtube.com/watch?v=${videoId}`;
 }
 
-async function rebuildMenu() {
+// Serialize rebuilds: multiple triggers (onInstalled/onStartup/onChanged,
+// plus the storage write migrate() makes on first run) can otherwise run
+// concurrently and both create "geminize-root", causing a duplicate-id error.
+let rebuildChain = Promise.resolve();
+function rebuildMenu() {
+  rebuildChain = rebuildChain
+    .then(doRebuildMenu)
+    .catch((err) => console.warn("youtube2gemini: rebuildMenu failed", err));
+  return rebuildChain;
+}
+
+async function doRebuildMenu() {
   await chrome.contextMenus.removeAll();
   const { prompts, defaultPromptId } = await self.Prompts.getPrompts();
   chrome.contextMenus.create({
