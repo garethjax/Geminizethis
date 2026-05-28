@@ -51,7 +51,74 @@
     return prompts.length > 0 ? prompts[0].id : null;
   }
 
-  const api = { applyTemplate, parseImportJson, mergeImported, reassignDefault };
+  const DEFAULT_PROMPT_TEXT =
+    "Riassumi questo video e fai un elenco dei punti principali";
+
+  function migrate(stored, genId) {
+    if (stored && Array.isArray(stored.prompts) && stored.prompts.length > 0) {
+      return stored;
+    }
+    const id = genId();
+    return {
+      prompts: [{ id, name: "Riassunto", text: DEFAULT_PROMPT_TEXT, author: "" }],
+      defaultPromptId: id
+    };
+  }
+
+  const api = { applyTemplate, parseImportJson, mergeImported, reassignDefault, migrate };
+
+  // --- chrome.storage wrappers (skipped under Node) ---
+  if (typeof chrome !== "undefined" && chrome.storage) {
+    const newId = () => globalThis.crypto.randomUUID();
+
+    async function load() {
+      const stored = await chrome.storage.local.get(["prompts", "defaultPromptId"]);
+      const migrated = migrate(stored, newId);
+      if (migrated !== stored) {
+        await chrome.storage.local.set(migrated);
+      }
+      return migrated;
+    }
+
+    api.getPrompts = load;
+
+    api.savePrompt = async function (prompt) {
+      const { prompts, defaultPromptId } = await load();
+      const idx = prompts.findIndex((p) => p.id === prompt.id);
+      if (idx >= 0) {
+        prompts[idx] = prompt;
+      } else {
+        prompts.push({ ...prompt, id: prompt.id || newId() });
+      }
+      await chrome.storage.local.set({ prompts, defaultPromptId });
+    };
+
+    api.deletePrompt = async function (id) {
+      const { prompts, defaultPromptId } = await load();
+      const remaining = prompts.filter((p) => p.id !== id);
+      const newDefault = reassignDefault(remaining, defaultPromptId, id);
+      await chrome.storage.local.set({ prompts: remaining, defaultPromptId: newDefault });
+    };
+
+    api.setDefault = async function (id) {
+      const { prompts } = await load();
+      await chrome.storage.local.set({ prompts, defaultPromptId: id });
+    };
+
+    api.exportJson = async function () {
+      const { prompts } = await load();
+      const bare = prompts.map((p) => ({ name: p.name, text: p.text, author: p.author }));
+      return JSON.stringify({ version: 1, prompts: bare }, null, 2);
+    };
+
+    api.importJson = async function (jsonString) {
+      const imported = parseImportJson(jsonString);
+      const { prompts, defaultPromptId } = await load();
+      const merged = mergeImported(prompts, imported, newId);
+      await chrome.storage.local.set({ prompts: merged, defaultPromptId });
+      return imported.length;
+    };
+  }
 
   if (typeof module !== "undefined" && module.exports) {
     module.exports = api;

@@ -50,3 +50,16 @@ test("reassignDefault picks first remaining when default deleted", () => {
 test("reassignDefault returns null when no prompts remain", () => {
   assert.strictEqual(P.reassignDefault([], "a", "a"), null);
 });
+
+const DEFAULT_TEXT = "Riassumi questo video e fai un elenco dei punti principali";
+test("migrate seeds a default prompt when storage is empty", () => {
+  const result = P.migrate({}, () => "seed-1");
+  assert.deepStrictEqual(result, {
+    prompts: [{ id: "seed-1", name: "Riassunto", text: DEFAULT_TEXT, author: "" }],
+    defaultPromptId: "seed-1"
+  });
+});
+test("migrate leaves existing prompts untouched", () => {
+  const stored = { prompts: [{ id: "a", name: "X", text: "t", author: "" }], defaultPromptId: "a" };
+  assert.deepStrictEqual(P.migrate(stored, () => "ignored"), stored);
+});
