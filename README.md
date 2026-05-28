@@ -1,4 +1,4 @@
-# Geminizethis (youtube2gemini)
+# Geminize This
 
 A Chrome extension that seamlessly sends YouTube videos to Google Gemini for summarization and analysis.
 
@@ -21,7 +21,7 @@ Manage your prompts locally (stored in the browser via `chrome.storage.local`, n
 ## Installation
 
 ### For Beta Testers (ZIP version)
-1.  Download the `youtube2gemini-v0.1.zip` from the [latest releases](https://github.com/garethjax/Geminizethis/releases).
+1.  Download the latest `youtube2gemini-vX.Y.zip` from the [latest releases](https://github.com/garethjax/Geminizethis/releases).
 2.  Extract the ZIP file to a folder on your computer.
 3.  Open Chrome and navigate to `chrome://extensions`.
 4.  Enable **"Developer mode"** (top right toggle).
