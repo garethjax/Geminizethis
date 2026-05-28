@@ -1,5 +1,6 @@
-const MENU_ID = "gemini-this";
-const PROMPT = "Riassumi questo video e fai un elenco dei punti principali";
+importScripts("prompts.js");
+
+const MENU_PREFIX = "gemini-prompt:";
 const GEMINI_URL = "https://gemini.google.com/app";
 
 // Build a clean canonical watch URL, or return null if no video id is found.
@@ -10,34 +11,55 @@ function normalizeYouTubeUrl(rawUrl) {
   } catch {
     return null;
   }
-
   let videoId = null;
   if (parsed.hostname === "youtu.be") {
     videoId = parsed.pathname.slice(1);
   } else if (parsed.hostname.endsWith("youtube.com")) {
     videoId = parsed.searchParams.get("v");
   }
-
   if (!videoId) {
     return null;
   }
   return `https://www.youtube.com/watch?v=${videoId}`;
 }
 
-chrome.runtime.onInstalled.addListener(() => {
+async function rebuildMenu() {
+  await chrome.contextMenus.removeAll();
+  const { prompts, defaultPromptId } = await self.Prompts.getPrompts();
   chrome.contextMenus.create({
-    id: MENU_ID,
+    id: "geminize-root",
     title: "Geminize this",
     contexts: ["link"],
-    targetUrlPatterns: [
-      "*://*.youtube.com/watch?v=*",
-      "*://youtu.be/*"
-    ]
+    targetUrlPatterns: ["*://*.youtube.com/watch?v=*", "*://youtu.be/*"]
   });
+  // Default first, then the rest.
+  const ordered = prompts.slice().sort((a, b) => {
+    if (a.id === defaultPromptId) return -1;
+    if (b.id === defaultPromptId) return 1;
+    return 0;
+  });
+  for (const p of ordered) {
+    const suffix = p.id === defaultPromptId ? " (default)" : "";
+    chrome.contextMenus.create({
+      id: MENU_PREFIX + p.id,
+      parentId: "geminize-root",
+      title: p.name + suffix,
+      contexts: ["link"],
+      targetUrlPatterns: ["*://*.youtube.com/watch?v=*", "*://youtu.be/*"]
+    });
+  }
+}
+
+chrome.runtime.onInstalled.addListener(rebuildMenu);
+chrome.runtime.onStartup.addListener(rebuildMenu);
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === "local" && (changes.prompts || changes.defaultPromptId)) {
+    rebuildMenu();
+  }
 });
 
-chrome.contextMenus.onClicked.addListener((info) => {
-  if (info.menuItemId !== MENU_ID) {
+chrome.contextMenus.onClicked.addListener(async (info) => {
+  if (!String(info.menuItemId).startsWith(MENU_PREFIX)) {
     return;
   }
   const url = normalizeYouTubeUrl(info.linkUrl);
@@ -45,7 +67,14 @@ chrome.contextMenus.onClicked.addListener((info) => {
     console.warn("youtube2gemini: could not parse video URL from", info.linkUrl);
     return;
   }
-  chrome.storage.local.set({ pendingVideo: { url, prompt: PROMPT } }, () => {
-    chrome.tabs.create({ url: GEMINI_URL });
-  });
+  const promptId = String(info.menuItemId).slice(MENU_PREFIX.length);
+  const { prompts } = await self.Prompts.getPrompts();
+  const chosen = prompts.find((p) => p.id === promptId);
+  if (!chosen) {
+    console.warn("youtube2gemini: prompt not found", promptId);
+    return;
+  }
+  const prompt = self.Prompts.applyTemplate(chosen.text, url);
+  await chrome.storage.local.set({ pendingVideo: { url, prompt } });
+  chrome.tabs.create({ url: GEMINI_URL });
 });

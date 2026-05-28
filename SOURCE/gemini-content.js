@@ -60,7 +60,7 @@ async function run() {
     );
     return;
   }
-  fillTextbox(textbox, `${pendingVideo.prompt}\n${pendingVideo.url}`);
+  fillTextbox(textbox, pendingVideo.prompt);
   await chrome.storage.local.remove("pendingVideo");
 }
 
