@@ -1,25 +1,37 @@
 const list = document.getElementById("list");
 const status = document.getElementById("status");
 
-function setStatus(msg) {
+function setStatus(msg, isError) {
   status.textContent = msg;
+  status.className = "status" + (isError ? " error" : "");
   if (msg) setTimeout(() => { status.textContent = ""; }, 4000);
 }
 
 async function render() {
   const { prompts, defaultPromptId } = await self.Prompts.getPrompts();
   list.innerHTML = "";
+  if (prompts.length === 0) {
+    list.innerHTML = '<div class="empty">Nessun prompt salvato. Crea il primo con “Nuovo prompt”.</div>';
+    return;
+  }
   for (const p of prompts) {
     const div = document.createElement("div");
-    div.className = "prompt";
+    div.className = "card";
     div.innerHTML = `
+      <label class="field">Nome</label>
       <input type="text" class="name" placeholder="Nome" />
-      <textarea class="text" placeholder="Testo del prompt"></textarea>
+      <label class="field">Testo del prompt</label>
+      <textarea class="text" placeholder="Testo del prompt…"></textarea>
+      <label class="field">Autore</label>
       <input type="text" class="author" placeholder="Autore (facoltativo)" />
-      <div class="row">
-        <label><input type="radio" name="def" class="def" /> Default</label>
-        <button class="save">Salva</button>
-        <button class="del">Elimina</button>
+      <div class="row between">
+        <label class="row" style="gap:6px;cursor:pointer;">
+          <input type="radio" name="def" class="def" /> <span class="muted">Prompt di default</span>
+        </label>
+        <div class="row">
+          <button class="del danger">Elimina</button>
+          <button class="save primary">Salva</button>
+        </div>
       </div>`;
     div.querySelector(".name").value = p.name;
     div.querySelector(".text").value = p.text;
@@ -69,7 +81,7 @@ document.getElementById("importFile").addEventListener("change", async (e) => {
     setStatus(`Importati ${count} prompt.`);
     render();
   } catch (err) {
-    setStatus("Errore import: " + err.message);
+    setStatus("Errore import: " + err.message, true);
   }
   e.target.value = "";
 });
