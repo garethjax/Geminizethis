@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Geminize This",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Right-click any YouTube video and send it to Gemini for a summary.",
   "permissions": [
     "contextMenus",

@@ -14,6 +14,22 @@ test("serializePrompts output round-trips through parseImportJson", () => {
   assert.deepStrictEqual(P.parseImportJson(json), [{ name: "A", text: "t", author: "" }]);
 });
 
+test("menuPromptId extracts the prompt id from a link-tree item", () => {
+  assert.strictEqual(
+    P.menuPromptId("gemini-prompt:geminize-root-link:abc-123", "gemini-prompt:"),
+    "abc-123"
+  );
+});
+test("menuPromptId extracts the prompt id from a page-tree item", () => {
+  assert.strictEqual(
+    P.menuPromptId("gemini-prompt:geminize-root-page:abc-123", "gemini-prompt:"),
+    "abc-123"
+  );
+});
+test("menuPromptId returns null for items that are not ours", () => {
+  assert.strictEqual(P.menuPromptId("geminize-root-link", "gemini-prompt:"), null);
+});
+
 test("applyTemplate replaces {{url}} placeholder", () => {
   assert.strictEqual(P.applyTemplate("Watch {{url}} now", "https://x/v"), "Watch https://x/v now");
 });

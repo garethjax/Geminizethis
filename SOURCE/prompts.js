@@ -71,8 +71,20 @@
     return JSON.stringify({ version: 1, prompts: bare }, null, 2);
   }
 
+  // Context-menu prompt items are id'd as "<prefix><tree>:<promptId>" (the
+  // prompt id, a UUID, never contains ":"). Returns the prompt id, or null
+  // if the menu item isn't one of ours.
+  function menuPromptId(menuItemId, prefix) {
+    const id = String(menuItemId);
+    if (!id.startsWith(prefix)) {
+      return null;
+    }
+    return id.slice(id.lastIndexOf(":") + 1);
+  }
+
   const api = {
-    applyTemplate, parseImportJson, mergeImported, reassignDefault, migrate, serializePrompts
+    applyTemplate, parseImportJson, mergeImported, reassignDefault, migrate,
+    serializePrompts, menuPromptId
   };
 
   // --- chrome.storage wrappers (skipped under Node) ---

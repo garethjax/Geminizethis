@@ -87,6 +87,17 @@ document.getElementById("add").addEventListener("click", async () => {
   render();
 });
 
+document.getElementById("exportAll").addEventListener("click", async () => {
+  const { prompts } = await self.Prompts.getPrompts();
+  if (prompts.length === 0) {
+    setStatus("Nessun prompt da esportare.", true);
+    return;
+  }
+  const date = new Date().toISOString().slice(0, 10);
+  downloadJson(`geminize-backup-${date}.json`, self.Prompts.serializePrompts(prompts));
+  setStatus(`Esportati ${prompts.length} prompt.`);
+});
+
 document.getElementById("importFile").addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;
