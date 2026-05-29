@@ -34,14 +34,20 @@ function rebuildMenu() {
   return rebuildChain;
 }
 
+// Show on YouTube video links (feed thumbnails) and also anywhere on a
+// watch page itself, so you can geminize the video you're currently watching.
+const LINK_PATTERNS = ["*://*.youtube.com/watch?v=*", "*://youtu.be/*"];
+const PAGE_PATTERNS = ["*://*.youtube.com/watch?v=*"];
+
 async function doRebuildMenu() {
   await chrome.contextMenus.removeAll();
   const { prompts, defaultPromptId } = await self.Prompts.getPrompts();
   chrome.contextMenus.create({
     id: "geminize-root",
     title: "Geminize this",
-    contexts: ["link"],
-    targetUrlPatterns: ["*://*.youtube.com/watch?v=*", "*://youtu.be/*"]
+    contexts: ["link", "page"],
+    targetUrlPatterns: LINK_PATTERNS,
+    documentUrlPatterns: PAGE_PATTERNS
   });
   // Default first, then the rest.
   const ordered = prompts.slice().sort((a, b) => {
@@ -55,8 +61,9 @@ async function doRebuildMenu() {
       id: MENU_PREFIX + p.id,
       parentId: "geminize-root",
       title: p.name + suffix,
-      contexts: ["link"],
-      targetUrlPatterns: ["*://*.youtube.com/watch?v=*", "*://youtu.be/*"]
+      contexts: ["link", "page"],
+      targetUrlPatterns: LINK_PATTERNS,
+      documentUrlPatterns: PAGE_PATTERNS
     });
   }
 }
@@ -73,9 +80,11 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
   if (!String(info.menuItemId).startsWith(MENU_PREFIX)) {
     return;
   }
-  const url = normalizeYouTubeUrl(info.linkUrl);
+  // On a link it's info.linkUrl; on the watch page itself it's info.pageUrl.
+  const raw = info.linkUrl || info.pageUrl;
+  const url = normalizeYouTubeUrl(raw);
   if (!url) {
-    console.warn("youtube2gemini: could not parse video URL from", info.linkUrl);
+    console.warn("youtube2gemini: could not parse video URL from", raw);
     return;
   }
   const promptId = String(info.menuItemId).slice(MENU_PREFIX.length);
