@@ -8,6 +8,22 @@ per riassumerli e analizzarli.
 > Nota: l'interfaccia dell'estensione è in inglese. Questa è la documentazione
 > in italiano del progetto.
 
+## Screenshot
+
+**Menu contestuale "Geminize this"** — clic destro su un link al video (o sulla
+pagina del video) e scegli un prompt:
+
+![Menu contestuale Geminize this](screenshots/contextual-menu.jpg)
+
+**Popup nella toolbar** — cambia rapidamente il prompt di default attivo:
+
+![Popup nella toolbar](screenshots/toolbar.jpg)
+
+**Archivio dei prompt** — crea, modifica, importa/esporta i prompt e imposta
+quello di default:
+
+![Pagina Opzioni dell'archivio prompt](screenshots/prompt-archive.jpg)
+
 ## Come funziona
 
 1.  **Menu contestuale**: l'estensione aggiunge il sottomenu "Geminize this" al

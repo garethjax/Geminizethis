@@ -1,5 +1,14 @@
 [
   {
+    "version": "1.2.2",
+    "codename": "Helium Cakes",
+    "date": "2026-05-31",
+    "changes": [
+      "The extension interface is now fully in English, ahead of open-sourcing the project.",
+      "Documentation: English and Italian READMEs with screenshots."
+    ]
+  },
+  {
     "version": "1.2.1",
     "codename": "Elven Tuba",
     "date": "2026-05-29",

@@ -4,6 +4,20 @@
 
 A Chrome extension that seamlessly sends YouTube videos to Google Gemini for summarization and analysis.
 
+## Screenshots
+
+**"Geminize this" context menu** — right-click a video link (or the watch page) and pick a prompt:
+
+![Geminize this context menu](screenshots/contextual-menu.jpg)
+
+**Toolbar popup** — quickly switch the active default prompt:
+
+![Toolbar popup](screenshots/toolbar.jpg)
+
+**Prompt archive** — create, edit, import/export prompts and set the default:
+
+![Prompt archive options page](screenshots/prompt-archive.jpg)
+
 ## How it Works
 
 1.  **Context Menu**: The extension adds a "Geminize this" submenu to your browser's right-click context menu. It appears both when you right-click a YouTube video link (e.g. a thumbnail in the feed) and anywhere on a video's watch page, so you can summarize the video you're currently watching. The submenu lists all your saved prompts, with the default one on top.

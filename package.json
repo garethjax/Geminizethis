@@ -1,6 +1,6 @@
 {
   "name": "youtube2gemini",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Geminize This — a Chrome MV3 extension that sends YouTube videos to Google Gemini for summarization, with a local archive of custom prompts.",
   "license": "MIT",
   "author": "Andrea Scarpetta",
