@@ -11,27 +11,27 @@ async function render() {
   const { prompts, defaultPromptId } = await self.Prompts.getPrompts();
   list.innerHTML = "";
   if (prompts.length === 0) {
-    list.innerHTML = '<div class="empty">Nessun prompt salvato. Crea il primo con “Nuovo prompt”.</div>';
+    list.innerHTML = '<div class="empty">No prompts saved yet. Create your first one with “New prompt”.</div>';
     return;
   }
   for (const p of prompts) {
     const div = document.createElement("div");
     div.className = "card";
     div.innerHTML = `
-      <label class="field">Nome</label>
-      <input type="text" class="name" placeholder="Nome" />
-      <label class="field">Testo del prompt</label>
-      <textarea class="text" placeholder="Testo del prompt…"></textarea>
-      <label class="field">Autore</label>
-      <input type="text" class="author" placeholder="Autore (facoltativo)" />
+      <label class="field">Name</label>
+      <input type="text" class="name" placeholder="Name" />
+      <label class="field">Prompt text</label>
+      <textarea class="text" placeholder="Prompt text…"></textarea>
+      <label class="field">Author</label>
+      <input type="text" class="author" placeholder="Author (optional)" />
       <div class="row between">
         <label class="row" style="gap:6px;cursor:pointer;">
-          <input type="radio" name="def" class="def" /> <span class="muted">Prompt di default</span>
+          <input type="radio" name="def" class="def" /> <span class="muted">Default prompt</span>
         </label>
         <div class="row">
-          <button class="del danger">Elimina</button>
-          <button class="exp">Esporta</button>
-          <button class="save primary">Salva</button>
+          <button class="del danger">Delete</button>
+          <button class="exp">Export</button>
+          <button class="save primary">Save</button>
         </div>
       </div>`;
     div.querySelector(".name").value = p.name;
@@ -46,12 +46,12 @@ async function render() {
         author: div.querySelector(".author").value
       });
       if (div.querySelector(".def").checked) await self.Prompts.setDefault(p.id);
-      setStatus("Salvato.");
+      setStatus("Saved.");
       render();
     });
     div.querySelector(".del").addEventListener("click", async () => {
       await self.Prompts.deletePrompt(p.id);
-      setStatus("Eliminato.");
+      setStatus("Deleted.");
       render();
     });
     div.querySelector(".exp").addEventListener("click", () => {
@@ -83,19 +83,19 @@ function downloadJson(filename, json) {
 }
 
 document.getElementById("add").addEventListener("click", async () => {
-  await self.Prompts.savePrompt({ name: "Nuovo prompt", text: "", author: "" });
+  await self.Prompts.savePrompt({ name: "New prompt", text: "", author: "" });
   render();
 });
 
 document.getElementById("exportAll").addEventListener("click", async () => {
   const { prompts } = await self.Prompts.getPrompts();
   if (prompts.length === 0) {
-    setStatus("Nessun prompt da esportare.", true);
+    setStatus("No prompts to export.", true);
     return;
   }
   const date = new Date().toISOString().slice(0, 10);
   downloadJson(`geminize-backup-${date}.json`, self.Prompts.serializePrompts(prompts));
-  setStatus(`Esportati ${prompts.length} prompt.`);
+  setStatus(`Exported ${prompts.length} prompt(s).`);
 });
 
 document.getElementById("importFile").addEventListener("change", async (e) => {
@@ -104,10 +104,10 @@ document.getElementById("importFile").addEventListener("change", async (e) => {
   try {
     const text = await file.text();
     const count = await self.Prompts.importJson(text);
-    setStatus(`Importati ${count} prompt.`);
+    setStatus(`Imported ${count} prompt(s).`);
     render();
   } catch (err) {
-    setStatus("Errore import: " + err.message, true);
+    setStatus("Import error: " + err.message, true);
   }
   e.target.value = "";
 });

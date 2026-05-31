@@ -4,7 +4,7 @@ async function render() {
   const { prompts, defaultPromptId } = await self.Prompts.getPrompts();
   list.innerHTML = "";
   if (prompts.length === 0) {
-    list.innerHTML = '<div class="empty">Nessun prompt. Aprine la gestione qui sotto.</div>';
+    list.innerHTML = '<div class="empty">No prompts yet. Open the manager below.</div>';
     return;
   }
   for (const p of prompts) {

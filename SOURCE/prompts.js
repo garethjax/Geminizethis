@@ -52,7 +52,7 @@
   }
 
   const DEFAULT_PROMPT_TEXT =
-    "Riassumi questo video e fai un elenco dei punti principali";
+    "Summarize this video and list the main points";
 
   function migrate(stored, genId) {
     if (stored && Array.isArray(stored.prompts) && stored.prompts.length > 0) {
@@ -60,7 +60,7 @@
     }
     const id = genId();
     return {
-      prompts: [{ id, name: "Riassunto", text: DEFAULT_PROMPT_TEXT, author: "" }],
+      prompts: [{ id, name: "Summary", text: DEFAULT_PROMPT_TEXT, author: "" }],
       defaultPromptId: id
     };
   }

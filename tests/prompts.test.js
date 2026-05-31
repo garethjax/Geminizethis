@@ -79,11 +79,11 @@ test("reassignDefault returns null when no prompts remain", () => {
   assert.strictEqual(P.reassignDefault([], "a", "a"), null);
 });
 
-const DEFAULT_TEXT = "Riassumi questo video e fai un elenco dei punti principali";
+const DEFAULT_TEXT = "Summarize this video and list the main points";
 test("migrate seeds a default prompt when storage is empty", () => {
   const result = P.migrate({}, () => "seed-1");
   assert.deepStrictEqual(result, {
-    prompts: [{ id: "seed-1", name: "Riassunto", text: DEFAULT_TEXT, author: "" }],
+    prompts: [{ id: "seed-1", name: "Summary", text: DEFAULT_TEXT, author: "" }],
     defaultPromptId: "seed-1"
   });
 });

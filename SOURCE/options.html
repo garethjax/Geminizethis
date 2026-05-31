@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>Geminize This — Prompt</title>
@@ -20,12 +20,12 @@
   <div class="page">
     <header class="app-header">
       <div>
-        <h1>Archivio prompt</h1>
-        <p class="subtitle">Usa <code>{{url}}</code> per posizionare l'URL; se assente va in fondo.</p>
+        <h1>Prompt archive</h1>
+        <p class="subtitle">Use <code>{{url}}</code> to position the video URL; if omitted it is appended at the end.</p>
       </div>
       <button class="primary" id="add">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-        Nuovo prompt
+        New prompt
       </button>
     </header>
 
@@ -34,15 +34,15 @@
 
       <hr />
       <div class="row between">
-        <span class="muted">I prompt sono salvati solo in locale e vanno persi se disinstalli l'estensione: esportali per tenerne un backup.</span>
+        <span class="muted">Prompts are stored locally only and are lost if you uninstall the extension — export them to keep a backup.</span>
         <div class="row">
           <button id="exportAll">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Esporta tutto
+            Export all
           </button>
           <label class="import-label">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-            Importa JSON
+            Import JSON
             <input type="file" id="importFile" accept="application/json,.json" />
           </label>
         </div>

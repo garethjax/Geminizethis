@@ -7,7 +7,7 @@ async function render() {
     const res = await fetch(chrome.runtime.getURL("changelog.json"));
     releases = await res.json();
   } catch (err) {
-    list.innerHTML = '<div class="empty">Changelog non disponibile.</div>';
+    list.innerHTML = '<div class="empty">Changelog unavailable.</div>';
     console.warn("Geminize This: could not load changelog.json", err);
     return;
   }
@@ -21,7 +21,7 @@ async function render() {
       <div class="release-head">
         <span class="ver">v${escapeHtml(r.version)}</span>
         <span class="codename">${escapeHtml(r.codename || "")}</span>
-        ${isCurrent ? '<span class="badge-current">attuale</span>' : ""}
+        ${isCurrent ? '<span class="badge-current">current</span>' : ""}
         <span class="date">${escapeHtml(r.date || "")}</span>
       </div>
       <ul>${items}</ul>`;

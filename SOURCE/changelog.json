@@ -5,7 +5,7 @@
     "date": "2026-05-29",
     "changes": [
       "Fix: the “Geminize this” menu was missing on the feed in standard Chrome — it now shows on video links everywhere again, plus on the watch page itself.",
-      "“Esporta tutto”: back up all your prompts to a single JSON file (and restore them with Importa), since prompts are local and are lost if the extension is uninstalled."
+      "“Export all”: back up all your prompts to a single JSON file (and restore them with Import), since prompts are local and are lost if the extension is uninstalled."
     ]
   },
   {
