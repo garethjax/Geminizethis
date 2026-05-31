@@ -1,5 +1,7 @@
 # Geminize This
 
+🌐 **English** · [Italiano](README.it.md)
+
 A Chrome extension that seamlessly sends YouTube videos to Google Gemini for summarization and analysis.
 
 ## How it Works
@@ -18,7 +20,7 @@ Manage your prompts locally (stored in the browser via `chrome.storage.local`, n
 *   **Author field**: each prompt has an optional `author` for attribution.
 *   **Import / Export**: export all prompts to a JSON file, or import a JSON file from someone else. Import **merges** (adds) the prompts to your existing ones, so prompts can be shared without overwriting your own.
 
-> **Backup your prompts.** Prompts live only in your browser (`chrome.storage.local`) and are **lost if you uninstall the extension**. Use *Esporta tutto* in the Options page to keep a JSON backup, and *Importa* to restore it. (Account sync is on the roadmap.)
+> **Backup your prompts.** Prompts live only in your browser (`chrome.storage.local`) and are **lost if you uninstall the extension**. Use *Export all* in the Options page to keep a JSON backup, and *Import* to restore it. (Account sync is on the roadmap.)
 
 ## Installation
 
