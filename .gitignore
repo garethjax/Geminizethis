@@ -4,3 +4,6 @@ node_modules/
 .env
 *.log
 .claude/
+
+# Release artifacts are published via GitHub Releases, not tracked in the repo.
+_releases/

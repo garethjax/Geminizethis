@@ -4,8 +4,9 @@ A Chrome extension that sends YouTube videos to Gemini for summarization.
 
 ## Usage
 
-Right-click any link to a YouTube video and open the **"Geminize this"**
-submenu, then choose one of your saved prompts (the default is on top).
+Right-click a link to a YouTube video — or anywhere on a video's watch
+page — and open the **"Geminize this"** submenu, then choose one of your
+saved prompts (the default is on top).
 A new tab opens on [gemini.google.com](https://gemini.google.com) with the
 prompt and video URL pre-filled. Click send to get the summary.
 
@@ -18,7 +19,8 @@ export prompts, and to set the default. Use `{{url}}` in a prompt's text to
 position the video URL (otherwise it is appended at the end). Each prompt has
 an optional `author` field. Import **merges** prompts into your existing set,
 so they can be shared. The toolbar popup lets you switch the default quickly.
-All data is stored locally via `chrome.storage.local`.
+All data is stored locally via `chrome.storage.local`, so it is **lost if you
+uninstall the extension** — use *Esporta tutto* to keep a JSON backup.
 
 ## Install (development)
 
@@ -41,4 +43,5 @@ All data is stored locally via `chrome.storage.local`.
 
 ## Roadmap
 
+- Account sync (`chrome.storage.sync`) so prompts survive a reinstall.
 - Firefox port.
